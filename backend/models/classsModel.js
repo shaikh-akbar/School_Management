@@ -6,6 +6,7 @@ const ClassSchema = new Schema({
     year: { type: Number, required: true },
     teacher: { type: Schema.Types.ObjectId, ref: 'Teacher' },
     studentFees: { type: Number, required: true },
+    maxStudents: { type: Number, required: true },
     students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
 });
 
