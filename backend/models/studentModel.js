@@ -1,14 +1,51 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const StudentSchema = new Schema({
-  name: { type: String, required: true },
-  gender: { type: String, required: true },
-  dob: { type: Date, required: true },
-  contactDetails: { type: String, required: true },
-  feesPaid: { type: Number, required: true },
-  class: { type: Schema.Types.ObjectId, ref: 'Class' },
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true,
+    minlength: [2, 'Name must be at least 2 characters long']
+  },
+  gender: {
+    type: String,
+    required: [true, 'Gender is required'],
+    enum: {
+      values: ['Male', 'Female', 'Other'],
+      message: 'Gender must be either Male, Female, or Other'
+    }
+  },
+  dob: {
+    type: Date,
+    required: [true, 'Date of Birth is required'],
+    validate: {
+      validator: function(value) {
+        return value instanceof Date && !isNaN(value);
+      },
+      message: 'Invalid Date of Birth'
+    }
+  },
+  contactDetails: {
+    type: String,
+    required: [true, 'Contact Details are required'],
+    validate: {
+      validator: function(value) {
+        // Simple phone number validation (e.g., should be numeric and 10 digits long)
+        return /^[0-9]{10}$/.test(value);
+      },
+      message: 'Contact Details must be a 10-digit number'
+    }
+  },
+  feesPaid: {
+    type: Number,
+    required: [true, 'Fees Paid is required'],
+    min: [0, 'Fees Paid must be a non-negative number']
+  },
+  class: {
+    type: Schema.Types.ObjectId,
+    ref: 'Class'
+  }
 });
 
 module.exports = mongoose.model('Student', StudentSchema);
