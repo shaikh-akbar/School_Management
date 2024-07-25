@@ -19,19 +19,34 @@ const getAllTeachers = async (req, res) => {
 };
 
 const addTeacher = async (req, res) => {
-    const { name, gender, dob, contactDetails, salary, assignedClass } = req.body;
     try {
-        const newTeacher = new Teacher({ name, gender, dob, contactDetails, salary, assignedClass });
-        const savedTeacher = await newTeacher.save();
-        res.status(201).json(savedTeacher);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+        const { name, gender, dob, contactDetails, salary, assignedClass } = req.body;
+    
+        // Validate the request body
+        if (!name || !gender || !dob || !contactDetails || !salary || !assignedClass) {
+          return res.status(400).json({ error: 'All fields are required' });
+        }
+    
+        const newTeacher = new Teacher({
+          name,
+          gender,
+          dob,
+          contactDetails,
+          salary,
+          assignedClass
+        });
+    
+        await newTeacher.save();
+        res.status(201).json({ message: 'Teacher added successfully', data: newTeacher });
+      } catch (error) {
+        console.error('Error adding teacher:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
 };
 
 const getTeacherById = async (req, res) => {
     try {
-        const teacher = await Teacher.findById(req.params.id).populate('assignedClass');
+        const teacher = await Teacher.findById(req.params.id)
         if (teacher) {
             res.json(teacher);
         } else {

@@ -44,6 +44,7 @@ const ClassPage = () => {
       toast.error('Failed to add or update class.');
     }
   };
+  
 
   const handleEdit = async (id) => {
     try {
@@ -52,10 +53,11 @@ const ClassPage = () => {
       setFormMode('edit');
       setIsModalOpen(true);
     } catch (error) {
-      console.error('Error fetching class:', error);
+      console.error('Error fetching class:', error.response ? error.response.data : error.message);
       toast.error('Failed to fetch class details.');
     }
   };
+  
 
   const handleDelete = async (id) => {
     try {

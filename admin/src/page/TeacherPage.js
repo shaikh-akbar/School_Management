@@ -38,7 +38,7 @@ const TeacherPage = () => {
 
   const handleSubmit = async (teacher) => {
     try {
-        teacher.dob = parseDate(teacher.dob);
+        // teacher.dob = parseDate(teacher.dob);
       if (formMode === 'add') {
         await addTeacher(teacher);
         toast.success('Teacher added successfully plzz refresh !');

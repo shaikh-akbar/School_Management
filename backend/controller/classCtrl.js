@@ -6,9 +6,9 @@ const Student = require('../models/studentModel');
 
 
 const AddClass = async (req, res) => {
-    const { className, year, teacher, studentFees, maxStudents } = req.body;
+    const { className, year, teacher, studentFees, maxStudents,students } = req.body;
     try {
-        const newClass = new Class({ className, year, teacher, studentFees, maxStudents });
+        const newClass = new Class({ className, year, teacher, studentFees, maxStudents,students });
         const savedClass = await newClass.save();
         res.status(201).json(savedClass);
     } catch (error) {
@@ -36,7 +36,7 @@ const enrollStudent = async (req, res) => {
 
 const getAllClasses = async (req, res) => {
     try {
-        const classes = await Class.find().populate('teacher').populate('students');
+        const classes = await Class.find()
         res.json(classes);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -45,29 +45,34 @@ const getAllClasses = async (req, res) => {
 
 const getAClass = async (req, res) => {
     try {
-        const classDetails = await Class.findById(req.params.id).populate('teacher').populate('students');
-        if (!classDetails) return res.status(404).send('Class not found');
-    
-        // Fetch students and their genders
-        const students = await Student.find({ _id: { $in: classDetails.students } });
-    
-        res.json({ classDetails, students });
-      } catch (err) {
-        res.status(500).send(err.message);
-      }
-};
+      const classDetails = await Class.findById(req.params.id)
+        .populate('teacher')  // Populate the teacher field if it references an ObjectId
+        .populate('students'); // Populate the students field
+  
+      if (!classDetails) return res.status(404).send('Class not found');
+  
+      res.json(classDetails);
+    } catch (err) {
+      console.error(err); // Log the error to identify the issue
+      res.status(500).send(err.message);
+    }
+  };
+  
+  
 
 const updateClass = async (req, res) => {
     try {
-        const updatedClass = await Class.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (updatedClass) {
-            res.json(updatedClass);
-        } else {
-            res.status(404).json({ message: 'Class not found' });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+        const updatedClass = await Class.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          { new: true, runValidators: true }
+        );
+        if (!updatedClass) return res.status(404).send('Class not found');
+        
+        res.json(updatedClass);
+      } catch (err) {
+        res.status(400).send(err.message);
+      }
 };
 
 const deleteClass = async (req, res) => {

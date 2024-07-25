@@ -42,8 +42,8 @@ const TeacherSchema = new Schema({
     min: [0, 'Salary must be a positive number']
   },
   assignedClass: {
-    type: Schema.Types.ObjectId,
-    ref: 'Class'
+    type: String,
+    required:[true,'Assiign Class is required']
   }
 });
 

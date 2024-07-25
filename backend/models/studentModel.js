@@ -42,9 +42,9 @@ const StudentSchema = new Schema({
     required: [true, 'Fees Paid is required'],
     min: [0, 'Fees Paid must be a non-negative number']
   },
-  class: {
-    type: Schema.Types.ObjectId,
-    ref: 'Class'
+  className: { // Changed 'class' to 'className'
+    type: String,
+    required: [true, 'Class is required'],
   }
 });
 

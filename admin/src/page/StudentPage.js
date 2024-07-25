@@ -87,7 +87,7 @@ const StudentPage = () => {
           { field: 'dob', header: 'Date of Birth' },
           { field: 'contactDetails', header: 'Contact Details' },
           { field: 'feesPaid', header: 'Fees Paid' },
-          { field: 'class.className', header: 'Class' }  // Adjusted for nested class
+          { field: 'className', header: 'Class' }  // Changed to className
         ]}
         data={students}
         onEdit={(id) => handleEdit(id)} 
@@ -103,7 +103,7 @@ const StudentPage = () => {
               { name: 'dob', label: 'Date of Birth', type: 'date' },
               { name: 'contactDetails', label: 'Contact Details', type: 'text' },
               { name: 'feesPaid', label: 'Fees Paid', type: 'number' },
-              { name: 'class', label: 'Class', type: 'text' } // Adjusted for handling nested class
+              { name: 'className', label: 'Class', type: 'text' } // Changed to className
             ]}
             onSubmit={handleSubmit}
             initialValues={selectedStudent || {}}

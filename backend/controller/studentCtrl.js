@@ -3,7 +3,7 @@ const Student = require('../models/studentModel');
 
 const getAllStudents = async (req, res) => {
     try {
-        const students = await Student.find().populate('class');
+        const students = await Student.find()
         res.json(students);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -11,19 +11,20 @@ const getAllStudents = async (req, res) => {
 };
 
 const addStudent = async (req, res) => {
-    const { name, gender, dob, contactDetails, feesPaid, class: studentClass } = req.body;
+    const { name, gender, dob, contactDetails, feesPaid, className } = req.body; // Changed 'class' to 'className'
     try {
-        const newStudent = new Student({ name, gender, dob, contactDetails, feesPaid, class: studentClass });
-        const savedStudent = await newStudent.save();
-        res.status(201).json(savedStudent);
+      const newStudent = new Student({ name, gender, dob, contactDetails, feesPaid, className });
+      const savedStudent = await newStudent.save();
+      res.status(201).json(savedStudent);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
-};
+  };
+  
 
 const getStudentById = async (req, res) => {
     try {
-        const student = await Student.findById(req.params.id).populate('class');
+        const student = await Student.findById(req.params.id);
         if (student) {
             res.json(student);
         } else {
