@@ -31,7 +31,7 @@ const StudentSchema = new Schema({
     required: [true, 'Contact Details are required'],
     validate: {
       validator: function(value) {
-        // Simple phone number validation (e.g., should be numeric and 10 digits long)
+        
         return /^[0-9]{10}$/.test(value);
       },
       message: 'Contact Details must be a 10-digit number'
@@ -42,7 +42,7 @@ const StudentSchema = new Schema({
     required: [true, 'Fees Paid is required'],
     min: [0, 'Fees Paid must be a non-negative number']
   },
-  className: { // Changed 'class' to 'className'
+  className: { 
     type: String,
     required: [true, 'Class is required'],
   }

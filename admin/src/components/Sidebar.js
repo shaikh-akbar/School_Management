@@ -17,7 +17,7 @@ function Sidebar() {
             <div className={`bg-[#4E73DF] h-screen fixed z-20 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform lg:translate-x-0 lg:relative`}>
                 <div className='px-[25px]'>
                     <div className='px-[15px] py-[30px] flex items-center justify-between border-b-[1px] border-[#EDEDED]/[0.3]'>
-                        <h1 className='text-white font-extrabold text-[20px] leading-[24px] cursor-pointer'>Admin Panel</h1>
+                        <h1 className='text-white font-extrabold text-[20px] leading-[24px] cursor-pointer'>Admin </h1>
                         <button onClick={toggleSidebar} className='lg:hidden'>
                             <FaTimes color='black'  />
                         </button>
@@ -58,20 +58,20 @@ function Sidebar() {
                         </div>
                         <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
                             <div >
-                            <Link to='/class-analytics' className='flex items-center gap-[10px]'>
+                            <Link to='/ClassAnalytics/:id' className='flex items-center gap-[10px]'>
                                 <MdClass color='white' />
                                 <p className='text-[14px] leading-[20px] font-normal text-white'>Analytics</p>
                             </Link>
                             </div>
                         </div>
-                        <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
+                        {/* <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
                             <div >
                             <Link to='/expense-income-analytics' className='flex items-center gap-[10px]'>
                                 <MdClass color='white' />
                                 <p className='text-[14px] leading-[20px] font-normal text-white'>Expensive Income Analytics</p>
                             </Link>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

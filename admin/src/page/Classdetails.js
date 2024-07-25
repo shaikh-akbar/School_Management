@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-const ClassAnalytics = () => {
+const ClassDetails = () => {
     const { id } = useParams();
     const [className, setClassName] = useState([]);
     const [students, setStudents] = useState([]);
@@ -114,9 +114,9 @@ const ClassAnalytics = () => {
                 <Tooltip />
                 <Legend />
             </PieChart>
-            {/* <ToastContainer /> */}
+            <ToastContainer />
         </div>
     );
 };
 
-export default ClassAnalytics;
+export default ClassDetails;

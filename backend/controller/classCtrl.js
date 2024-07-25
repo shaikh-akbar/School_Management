@@ -44,16 +44,15 @@ const getAllClasses = async (req, res) => {
 };
 
 const getAClass = async (req, res) => {
+   console.log(req.params.id ,"param id")
     try {
-      const classDetails = await Class.findById(req.params.id)
-        .populate('teacher')  // Populate the teacher field if it references an ObjectId
-        .populate('students'); // Populate the students field
-  
+      const classDetails = await Class.findById(req.params.id);
+
       if (!classDetails) return res.status(404).send('Class not found');
   
       res.json(classDetails);
     } catch (err) {
-      console.error(err); // Log the error to identify the issue
+      console.error(err); 
       res.status(500).send(err.message);
     }
   };
@@ -88,7 +87,6 @@ const deleteClass = async (req, res) => {
     }
 };
 
-// In your student controller
 const getStudentGenderCount = async (classId) => {
     try {
       const classObj = await Class.findById(classId).populate('students');

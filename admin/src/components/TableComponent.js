@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-const TableComponent = ({ columns, data, onEdit, onDelete }) => {
+const TableComponent = ({ columns, data, onEdit, onDelete,onView }) => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState({});
   const [sortField, setSortField] = useState('');
@@ -94,13 +94,18 @@ const TableComponent = ({ columns, data, onEdit, onDelete }) => {
                 >
                   Delete
                 </button>
+                <button 
+                  onClick={() => onView(item._id)} 
+                  className='text-green-600 hover:text-green-900 ml-2'
+                >
+                  View Details
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       
-      {/* Pagination Controls */}
       <div className='mt-4 flex justify-between items-center px-[15px] py-[15px]'>
         <button 
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

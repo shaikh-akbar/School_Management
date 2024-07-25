@@ -71,7 +71,7 @@ const updateTeacher = async (req, res) => {
 };
 
 const deleteTeacher = async (req, res) => {
-    console.log('Request parameters:', req.params); // Check the request parameters
+    console.log('Request parameters:', req.params);
     try {
         const id = req.params.id;
         if (!id) {

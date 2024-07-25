@@ -7,6 +7,9 @@ import ExpenseIncomeAnalytics from '../components/ExpensiveIncome';
 import TeacherPage from '../page/TeacherPage';
 import StudentPage from '../page/StudentPage';
 import ClassPage from '../page/StudentClassPage';
+import ClassDetails from '../page/Classdetails';
+import StudentDetails from '../page/StudentDetail';
+import TeacherDetails from '../page/TeacherDetail';
 
 function RouterMain() {
   return (
@@ -18,8 +21,11 @@ function RouterMain() {
             <Route path='/teacher' element={<TeacherPage />} />
             <Route path='/student' element={<StudentPage />} />
             <Route path='/class' element={<ClassPage />} />
-            <Route path="/class-analytics" element={ClassAnalytics} />
-            <Route path="/expense-income-analytics" component={ExpenseIncomeAnalytics} />
+            <Route path="/ClassAnalytics/:id" element={<ClassAnalytics/>} />
+            {/* <Route path="/expense-income-analytics" component={ExpenseIncomeAnalytics} /> */}
+            <Route path="ClassAnalytics/:id" element={<ClassDetails />} />
+            <Route path="/studentsDetail/:id" element={<StudentDetails />} />
+            <Route path="/teachersDetail/:id" element={<TeacherDetails />} />
           </Route>
         </Routes>
       </Router>

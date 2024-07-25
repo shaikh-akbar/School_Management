@@ -3,9 +3,11 @@ import { getAllClasses, addClass, updateClass, deleteClass, getClassById } from 
 import DynamicForm from '../components/DynamicForm';
 import TableComponent from '../components/TableComponent';
 import Modal from '../components/Modal';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader'; // Import the Loader component
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const ClassPage = () => {
   const [classes, setClasses] = useState([]);
@@ -13,6 +15,7 @@ const ClassPage = () => {
   const [formMode, setFormMode] = useState('add');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchClasses();
@@ -76,6 +79,13 @@ const ClassPage = () => {
     }
   };
 
+
+
+  const handleClassView = async (id) =>{
+    navigate(`/ClassAnalytics/${id}`);
+  }
+  
+
   return (
     <div>
       {loading && <Loader />}
@@ -103,6 +113,7 @@ const ClassPage = () => {
             data={classes}
             onEdit={(id) => handleEdit(id)}
             onDelete={(id) => handleDelete(id)}
+            onView={(id) => handleClassView(id)}
           />
           
           {isModalOpen && (

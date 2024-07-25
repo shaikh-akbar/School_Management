@@ -11,7 +11,7 @@ const getAllStudents = async (req, res) => {
 };
 
 const addStudent = async (req, res) => {
-    const { name, gender, dob, contactDetails, feesPaid, className } = req.body; // Changed 'class' to 'className'
+    const { name, gender, dob, contactDetails, feesPaid, className } = req.body;
     try {
       const newStudent = new Student({ name, gender, dob, contactDetails, feesPaid, className });
       const savedStudent = await newStudent.save();

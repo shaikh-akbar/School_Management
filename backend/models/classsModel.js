@@ -15,7 +15,7 @@ const ClassSchema = new Schema({
     max: [2100, 'Year must be less than or equal to 2100']
   },
   teacher: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Teacher',
     required: [true, 'Teacher is required']
   },
@@ -30,7 +30,7 @@ const ClassSchema = new Schema({
     min: [1, 'There must be at least one student allowed'],
     validate: {
       validator: function(value) {
-        // Ensure maxStudents is greater than or equal to the number of enrolled students
+       
         return !this.students || value >= this.students.length;
       },
       message: 'Max students cannot be less than the number of enrolled students'

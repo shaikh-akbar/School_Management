@@ -6,13 +6,15 @@ import Modal from '../components/Modal';
 import Loader from '../components/Loader'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const StudentPage = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [formMode, setFormMode] = useState('add');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchStudents();
@@ -76,6 +78,10 @@ const StudentPage = () => {
     }
   };
 
+  const handleView = (id) => {
+    navigate(`/studentsDetail/${id}`);
+  };
+
   return (
     <div>
       {loading && <Loader />} {/* Show loader when loading */}
@@ -103,6 +109,7 @@ const StudentPage = () => {
             data={students}
             onEdit={(id) => handleEdit(id)} 
             onDelete={(id) => handleDelete(id)}
+            onView={(id) => handleView(id)}
           />
           
           {isModalOpen && (
