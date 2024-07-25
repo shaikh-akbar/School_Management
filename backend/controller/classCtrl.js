@@ -44,11 +44,9 @@ const getAllClasses = async (req, res) => {
 };
 
 const getAClass = async (req, res) => {
+    console.log(req.params.id, "id not getting form the request");
     try {
-      const classDetails = await Class.findById(req.params.id)
-        .populate('teacher')  // Populate the teacher field if it references an ObjectId
-        .populate('students'); // Populate the students field
-  
+      const classDetails = await Class.findById(req.params.id);
       if (!classDetails) return res.status(404).send('Class not found');
   
       res.json(classDetails);

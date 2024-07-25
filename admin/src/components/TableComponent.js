@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-const TableComponent = ({ columns, data, onEdit, onDelete }) => {
+const TableComponent = ({ columns, data, onEdit, onDelete, onView }) => {
   // States for search, filter, sort, and pagination
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState({});
@@ -99,6 +99,12 @@ const TableComponent = ({ columns, data, onEdit, onDelete }) => {
                   className='text-red-600 hover:text-red-900'
                 >
                   Delete
+                </button>
+                <button 
+                  onClick={() => onView(item._id)} 
+                  className='text-green-600 hover:text-green-900 ml-2'
+                >
+                  View Details
                 </button>
               </td>
             </tr>

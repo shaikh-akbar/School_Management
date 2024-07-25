@@ -7,6 +7,7 @@ import ExpenseIncomeAnalytics from '../components/ExpensiveIncome';
 import TeacherPage from '../page/TeacherPage';
 import StudentPage from '../page/StudentPage';
 import ClassPage from '../page/StudentClassPage';
+import Classdetails from '../page/Classdetails';
 
 function RouterMain() {
   return (
@@ -20,6 +21,7 @@ function RouterMain() {
             <Route path='/class' element={<ClassPage />} />
             <Route path="/class-analytics" element={ClassAnalytics} />
             <Route path="/expense-income-analytics" component={ExpenseIncomeAnalytics} />
+            <Route path="dynamic/:id" element={<Classdetails />} />
           </Route>
         </Routes>
       </Router>
