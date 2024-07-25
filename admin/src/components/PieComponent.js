@@ -1,14 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 
-const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 }
-];
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -19,7 +12,7 @@ const renderCustomizedLabel = ({
     outerRadius,
     percent,
     index
-}: any) => {
+}) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -37,8 +30,7 @@ const renderCustomizedLabel = ({
     );
 };
 
-
-function PieComponent() {
+function PieComponent({ data }) {
     return (
         <div>
             <PieChart width={400} height={400}>
@@ -57,24 +49,21 @@ function PieComponent() {
                     ))}
                 </Pie>
             </PieChart>
-            <div className='grid grid-cols-4 px-[10px] py-[10px]'>
-                {
-                    data.map((item,index)=>(
-                        <p key={index} className='cursor-pointer font-bold'>{item.name}</p>
-                    ))
-                }
+            <div className='flex justify-center items-center flex-col'>
+                
+            </div>
+            <div className='grid grid-cols-4 px-[10px] py-[10px] '>
+                {data.map((item, index) => (
+                    <p key={index} className='cursor-pointer font-bold'>{item.name}</p>
+                ))}
             </div>
             <div className='grid grid-cols-4 px-[10px] py-[10px]'>
-                {
-                    COLORS.map((item,index)=>(
-                       <div className='h-[30px] w-[30px] ' style={{backgroundColor:item}} key={index}>
-
-                       </div>
-                    ))
-                }
+                {COLORS.map((color, index) => (
+                    <div className='h-[30px] w-[30px]' style={{ backgroundColor: color }} key={index}></div>
+                ))}
             </div>
         </div>
-    )
+    );
 }
 
-export default PieComponent
+export default PieComponent;

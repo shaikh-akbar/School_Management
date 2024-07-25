@@ -3,6 +3,7 @@ import { getAllStudents, addStudent, updateStudent, deleteStudent, getStudentByI
 import DynamicForm from '../components/DynamicForm';
 import TableComponent from '../components/TableComponent';
 import Modal from '../components/Modal';
+import Loader from '../components/Loader'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,18 +12,22 @@ const StudentPage = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [formMode, setFormMode] = useState('add');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // Add loading state
 
   useEffect(() => {
     fetchStudents();
   }, []);
 
   const fetchStudents = async () => {
+    setLoading(true); // Start loading
     try {
       const response = await getAllStudents();
       setStudents(response.data || []);
     } catch (error) {
       console.error('Error fetching students:', error);
       toast.error('Failed to fetch students.');
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -46,6 +51,7 @@ const StudentPage = () => {
   };
 
   const handleEdit = async (id) => {
+    setLoading(true);
     try {
       const response = await getStudentById(id);
       setSelectedStudent(response.data);
@@ -54,6 +60,8 @@ const StudentPage = () => {
     } catch (error) {
       console.error('Error fetching student:', error);
       toast.error('Failed to fetch student details.');
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -70,47 +78,52 @@ const StudentPage = () => {
 
   return (
     <div>
-      <div className='flex items-center justify-between px-[15px] py-[15px]'>
-        <h1 className='text-3xl font-bold'>Students</h1>
-        <button
-          className='bg-blue-500 text-white px-4 py-2 rounded'
-          onClick={() => setIsModalOpen(true)}
-        >
-          Add Student
-        </button>
-      </div>
-      
-      <TableComponent
-        columns={[
-          { field: 'name', header: 'Name' },
-          { field: 'gender', header: 'Gender' },
-          { field: 'dob', header: 'Date of Birth' },
-          { field: 'contactDetails', header: 'Contact Details' },
-          { field: 'feesPaid', header: 'Fees Paid' },
-          { field: 'className', header: 'Class' }  // Changed to className
-        ]}
-        data={students}
-        onEdit={(id) => handleEdit(id)} 
-        onDelete={(id) => handleDelete(id)}
-      />
-      
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <DynamicForm
-            fields={[
-              { name: 'name', label: 'Name', type: 'text' },
-              { name: 'gender', label: 'Gender', type: 'text' },
-              { name: 'dob', label: 'Date of Birth', type: 'date' },
-              { name: 'contactDetails', label: 'Contact Details', type: 'text' },
-              { name: 'feesPaid', label: 'Fees Paid', type: 'number' },
-              { name: 'className', label: 'Class', type: 'text' } // Changed to className
+      {loading && <Loader />} {/* Show loader when loading */}
+      {!loading && (
+        <>
+          <div className='flex items-center justify-between px-4 py-4'>
+            <h1 className='text-3xl font-bold'>Students</h1>
+            <button
+              className='bg-blue-500 text-white px-4 py-2 rounded'
+              onClick={() => setIsModalOpen(true)}
+            >
+              Add Student
+            </button>
+          </div>
+          
+          <TableComponent
+            columns={[
+              { field: 'name', header: 'Name' },
+              { field: 'gender', header: 'Gender' },
+              { field: 'dob', header: 'Date of Birth' },
+              { field: 'contactDetails', header: 'Contact Details' },
+              { field: 'feesPaid', header: 'Fees Paid' },
+              { field: 'className', header: 'Class' } 
             ]}
-            onSubmit={handleSubmit}
-            initialValues={selectedStudent || {}}
+            data={students}
+            onEdit={(id) => handleEdit(id)} 
+            onDelete={(id) => handleDelete(id)}
           />
-        </Modal>
+          
+          {isModalOpen && (
+            <Modal onClose={() => setIsModalOpen(false)}>
+              <DynamicForm
+                fields={[
+                  { name: 'name', label: 'Name', type: 'text' },
+                  { name: 'gender', label: 'Gender', type: 'text' },
+                  { name: 'dob', label: 'Date of Birth', type: 'date' },
+                  { name: 'contactDetails', label: 'Contact Details', type: 'text' },
+                  { name: 'feesPaid', label: 'Fees Paid', type: 'number' },
+                  { name: 'className', label: 'Class', type: 'text' } 
+                ]}
+                onSubmit={handleSubmit}
+                initialValues={selectedStudent || {}}
+              />
+            </Modal>
+          )}
+          <ToastContainer />
+        </>
       )}
-      <ToastContainer />
     </div>
   );
 };

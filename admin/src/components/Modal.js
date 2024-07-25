@@ -1,11 +1,12 @@
 import React from 'react';
+import './Modal.css'
 
 const Modal = ({ children, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <button className="modal-close" onClick={onClose}>&times;</button>
-        {children}
+      <button className="modal-close" onClick={onClose}>&times;</button>
+      {children}
       </div>
     </div>
   );

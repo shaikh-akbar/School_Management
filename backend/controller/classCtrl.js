@@ -66,7 +66,7 @@ const updateClass = async (req, res) => {
           req.params.id,
           req.body,
           { new: true, runValidators: true }
-        );
+        ).populate('teacher')
         if (!updatedClass) return res.status(404).send('Class not found');
         
         res.json(updatedClass);
@@ -88,11 +88,27 @@ const deleteClass = async (req, res) => {
     }
 };
 
+// In your student controller
+const getStudentGenderCount = async (classId) => {
+    try {
+      const classObj = await Class.findById(classId).populate('students');
+      if (!classObj) return { male: 0, female: 0 };
+  
+      const maleCount = classObj.students.filter(student => student.gender === 'male').length;
+      const femaleCount = classObj.students.filter(student => student.gender === 'female').length;
+  
+      return { male: maleCount, female: femaleCount };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+  
 module.exports = {
     AddClass,
     enrollStudent,
     getAllClasses,
     getAClass,
     updateClass,
-    deleteClass
+    deleteClass,
+    getStudentGenderCount
 };

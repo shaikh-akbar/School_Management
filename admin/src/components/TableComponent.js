@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 const TableComponent = ({ columns, data, onEdit, onDelete }) => {
-  // States for search, filter, sort, and pagination
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState({});
   const [sortField, setSortField] = useState('');
@@ -10,7 +9,6 @@ const TableComponent = ({ columns, data, onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
-  // Search and Filter
   const filteredData = data
     .filter(item => {
       return Object.keys(filter).every(key => {
@@ -23,7 +21,6 @@ const TableComponent = ({ columns, data, onEdit, onDelete }) => {
       );
     });
 
-  // Sorting
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortField) return 0;
     const aValue = a[sortField];
@@ -35,13 +32,11 @@ const TableComponent = ({ columns, data, onEdit, onDelete }) => {
     return 0;
   });
 
-  // Pagination
   const paginatedData = sortedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
   const totalPages = Math.ceil(sortedData.length / rowsPerPage);
 
   return (
     <div>
-      {/* Search Input */}
       <div className='px-[15px]'>
       <input
         type='text'
@@ -53,7 +48,6 @@ const TableComponent = ({ columns, data, onEdit, onDelete }) => {
       </div>
       
       
-      {/* Table */}
       <table className='min-w-full divide-y divide-gray-200'>
         <thead>
           <tr>

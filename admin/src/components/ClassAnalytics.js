@@ -1,61 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
 const ClassAnalytics = () => {
   const { id } = useParams();
-  const [classDetails, setClassDetails] = useState(null);
-  const [students, setStudents] = useState([]);
+  const [classData, setClassData] = useState(null);
+  const [genderCounts, setGenderCounts] = useState({ male: 0, female: 0 });
 
   useEffect(() => {
-    const fetchClassDetails = async () => {
-      try {
-        const response = await axios.get(`http://localhost:7000/api/admin/getASingleClass/${id}`);
-        setClassDetails(response.data.classDetails);
-        setStudents(response.data.students);
-      } catch (error) {
-        console.error(error);
-      }
+    const fetchData = async () => {
+      const API_URL = 'http://localhost:7000/api/admin';
+      const classRes = await fetch(`${API_URL}/api/admin/getASingleClass/${id}`);
+      const classData = await classRes.json();
+      setClassData(classData);
+
+      const genderRes = await fetch(`/api/students/genderCount/${id}`);
+      const genderData = await genderRes.json();
+      setGenderCounts(genderData);
     };
 
-    fetchClassDetails();
+    fetchData();
   }, [id]);
-
-  if (!classDetails) return <div>Loading...</div>;
-
-  // Count male and female students
-  const genderCounts = students.reduce((acc, student) => {
-    acc[student.gender] = (acc[student.gender] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Prepare data for Recharts
-  const chartData = [
-    { gender: 'Male', count: genderCounts['Male'] || 0 },
-    { gender: 'Female', count: genderCounts['Female'] || 0 },
-  ];
 
   return (
     <div>
-      <h1>Class Analytics</h1>
-      <h2>{classDetails.className}</h2>
-      <p>Year: {classDetails.year}</p>
-      <p>Teacher: {classDetails.teacher.name}</p>
-      <h3>Students:</h3>
-      <ul>
-        {students.map(student => (
-          <li key={student._id}>{student.name} ({student.gender})</li>
-        ))}
-      </ul>
-      <BarChart width={600} height={300} data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="gender" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" fill="#8884d8" />
-      </BarChart>
+      {classData && (
+        <>
+          <h1>{classData.className}</h1>
+          <p>Year: {classData.year}</p>
+          <p>Teacher: {classData.teacher.name}</p>
+          <ul>
+            {classData.students.map(student => (
+              <li key={student._id}>{student.name}</li>
+            ))}
+          </ul>
+          <BarChart width={500} height={300} data={[
+            { gender: 'Male', count: genderCounts.male },
+            { gender: 'Female', count: genderCounts.female }
+          ]}>
+            <XAxis dataKey="gender" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="count" fill="#8884d8" />
+          </BarChart>
+        </>
+      )}
     </div>
   );
 };

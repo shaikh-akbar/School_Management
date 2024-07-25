@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:7000/api/admin';
 
+
+
+/// /////// teacher api//////////
 export const addTeacher = (teacher) => axios.post(`${API_URL}/add/new-teacher`, teacher, {
   headers: {
     'Content-Type': 'application/json'
@@ -32,7 +35,7 @@ export const deleteTeacher = (id) => axios.delete(`${API_URL}/deleteATeacher/${i
 
 
 
-////student /////////////
+////student api/////////////
 
 export const addStudent = (student) => axios.post(`${API_URL}/add/new-student`, student, {
     headers: {
