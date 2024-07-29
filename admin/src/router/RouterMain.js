@@ -22,7 +22,7 @@ function RouterMain() {
             <Route path='/student' element={<StudentPage />} />
             <Route path='/class' element={<ClassPage />} />
             <Route path="/ClassAnalytics/:id" element={<ClassAnalytics/>} />
-            {/* <Route path="/expense-income-analytics" component={ExpenseIncomeAnalytics} /> */}
+          
             <Route path="ClassAnalytics/:id" element={<ClassDetails />} />
             <Route path="/studentsDetail/:id" element={<StudentDetails />} />
             <Route path="/teachersDetail/:id" element={<TeacherDetails />} />
