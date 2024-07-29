@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:7000/api/admin';
+const API_URL = 'https://school-management-backend-one.vercel.app/api/admin';
 
 
 
